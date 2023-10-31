@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IDAPython/Functions.md",
+                "file": "SSH/SSH.md",
                 "mode": "source",
                 "source": false
               }
@@ -31,8 +31,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -99,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "GIT/GIT.md",
+                "file": "SSH/SSH.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -116,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "GIT/GIT.md",
+                "file": "SSH/SSH.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -139,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "GIT/GIT.md"
+                "file": "SSH/SSH.md"
               }
             }
           }
@@ -160,13 +159,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e63c3a2a53cbbd6a",
+  "active": "ef73ef92254b662f",
   "lastOpenFiles": [
-    "GH/GH.md",
+    "IDAPython/Functions.md",
+    "SSH/SSH.md",
+    "SSH",
     "GIT/GIT.md",
+    "GH/GH.md",
     "Untitled 1.md",
     "GIT tutorial",
-    "IDAPython/Functions.md",
     "GIT",
     "IDAPython/Questions.md",
     "IDAPython/Pasted image 20231031121413.png",
