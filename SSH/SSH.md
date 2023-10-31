@@ -1,4 +1,8 @@
 
+GITHUB keys are generated for
+
+github session (gh)
+
 
 
 -C     Comments or metadata to add to the public key
@@ -9,7 +13,7 @@
 ```powershell
 ssh-keygen -o -t rsa -C "allsaint.github.io keys"
 ```
-Then paste key public key in github ssh keys.
+This generates key-pair. The public one is pasted into github, to maintain ssh connection to gh. Then paste key public key in github ssh keys.
 
 `ssh-agent`
 ```powershell
