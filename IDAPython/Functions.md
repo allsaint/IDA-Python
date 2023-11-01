@@ -1,3 +1,4 @@
+# Functions
 
 ```python
 # minimum address that is present in an IDB 
@@ -52,6 +53,7 @@ idc.get_prev_func(ea).
 # These can be manually fixed or automated using the function
 idc.create_insn(ea)
 ```
+# Function attributes
 
 [+] Iterating through instructions in a function
 [+] Usage of `idautils.FuncItems()` function 
@@ -79,6 +81,7 @@ ea = next_head(ea)
 # Get next address 
 ea = next_addr(ea)
 ```
+# Function flags
 
 [+] Function flags
 [+] Usage of `idautils.Functions()` function 
@@ -110,6 +113,8 @@ for func in idautils.Functions():
 ```
 
 
+# Instructions
+
 [+] Get dynamic calls inside all functions. (i.e. `call eax`, `jmp edi` etc. )
 [+]Usage of `idaapi.decode_insn()` function 
 ```python 
@@ -133,17 +138,211 @@ for func in Functions():
 			#if 1st operand is REGISTER
 			if instr_obj.Op1.type == o_reg:
 				print(generate_disasm_line(line,0))
-print("Done!")
+print("=== Done! ====")
 
 # [!] Working with the integer representation of the instruction can be faster and less error prone, 
 # [!] decode_insn() needs 2 aruments: instructions class and address integer
 ```
 
+[+] Usage `idc.get_operand_value()`
+[+] Usage `idc.op_plain_offset()`
+```python
+idc.op_plain_offset(ea, n, base) #to convert the operand to an offset
+idc.get_operand_value(ea, n)
+idc.OpOff(curr_addr, 0, 0)
+# n operand index
+# ea offset
+# base - base address
+```
 
+
+# Operands
+
+Operands are values going after instruction.
+Example: `mov eax, dword_4201488`
+instruction:  `mov`
+1st operand: `eax`
+2nd operand: `dword_4201488`
+
+```python
+def dis():
+	print(idc.generate_disasm_line(here(), 0))
+def op1():
+	return print_operand(here(),0)
+print("=== Start! ===")
+
+ea= here()
+func = idaapi.get_func(ea)
+op_type=get_operand_type(here(),0)
+
+if op_type ==o_void:
+	print("o_void =", op1())
+if op_type ==o_reg:
+	print("o_reg =",op1())
+if op_type ==o_mem:
+	print("o_mem =", op1())
+if op_type ==o_phrase:
+	print("o_phrase =", op1())
+if op_type ==o_displ:
+	print("o_displ =", op1())
+if op_type ==o_imm:
+	print("o_imm =", op1())
+if op_type ==o_far:
+	print("o_far =" , op1())
+if op_type ==o_near:
+	print("o_near =", op1())
+
+print("=== Done! ====")
+
+```
+
+# Xrefs To / Xrefs From
+
+
+
+[+]Usage `idc.get_name_ea_simple()`
+[+]Usage `idautils.CodeRefsTo()`
+[+] `idautils.Names()` 
+```python 
+import idautils
+print("=== Start! ===")
+min = get_inf_attr(INF_MIN_EA)
+max = get_inf_attr(INF_MAX_EA)
+# Get function addr (.idata)
+wf_addr = idc.get_name_ea_simple("IsDebuggerPresent")
+# Get list of xrefs to function
+# 2nd arg - bool flow. Follow normal code flow or not
+for ref in idautils.CodeRefsTo(wf_addr,0):
+	print(hex(ref), get_segm_name(ref))
+	print(generate_disasm_line(ref,0))
+
+# All renamed functions and APIs in an IDB can be accessed by calling idautils.Names()
+
+```
+
+```python 
+ea = 0x10004932
+print (hex(ea), idc.generate_disasm_line(ea, 0))
+
+for addr in idautils.CodeRefsFrom(ea, 0):
+	print (hex(addr), idc.generate_disasm_line(addr, 0))
+
+''' [>_]
+0x10004932 call ds:WriteFile
+0x1000e1b8 extrn WriteFile:dword
+'''
+```
+
+
+[+] Usage `idautils.DataRefsTo()`
+[+] Usage `idautils.DataRefsFrom()`
+```python
+print("=== Start! ===")
+
+print("From:")
+ea = 0x00007FF75BD09C90
+print(generate_disasm_line(ea,0))
+for addr in DataRefsFrom(ea):
+    print(hex(addr))
+    
+print("To:")
+ea= 0x00007FF75BD0B000
+print(generate_disasm_line(ea,0))
+for addr in DataRefsTo(ea):
+    print(hex(addr))   
+print("=== Done! ====")
+
+''' [>_]
+=== Start! ===
+From:
+call    cs:IsDebuggerPresent
+0x7ff75bd0b000
+To:
+dq offset kernel32_IsDebuggerPresent
+0x7ff75bd09c90
+0x7ff75bd0c7bc
+=== Done! ====
+'''
+```
+
+```python
+# rename function manually
+idc.set_name(ea, "RtlCompareMemory", SN_CHECK)
+```
+
+
+[+] `XrefsTo()`
+[+] `xref.type` - 12 different documented reference type values
+[+] `XrefTypeName(xref.type)`
+[+] `xref.frm` 
+[+] `xref.to` 
+[+] `xref.iscode` - if the xref is in a code segment
+```python
+import idautils
+import idaapi
+import idc
+
+print(" === START === ")
+print("=== From - 0 ===")
+
+# .text:...9C90 call    cs:IsDebuggerPresent
+ea = 0x00007FF75BD09C90
+for xref in XrefsFrom(ea,0):
+	print (xref.type, idautils.XrefTypeName(xref.type), hex(xref.frm), hex(xref.to), xref.iscode)
+
+print("=== From - 1 ===")
+for xref in XrefsFrom(ea,1):
+	print (xref.type, idautils.XrefTypeName(xref.type), hex(xref.frm), hex(xref.to), xref.iscode)
+
+print("=== To - 0 ===")
+# .idata:...B000 IsDebuggerPresent dq offset kernel32_IsDebuggerPresent
+ea = 0x00007FF75BD0B000
+# If the flag is 0 any cross reference are displayed
+for xref in XrefsTo(ea,0):
+	print (xref.type, idautils.XrefTypeName(xref.type), hex(xref.frm), hex(xref.to), xref.iscode)
+
+print("=== To - 1 ===")
+# If the flag is 1 Ordinary_Flow reference types won't be displayed
+for xref in XrefsTo(ea,1):
+	print (xref.type, idautils.XrefTypeName(xref.type), hex(xref.frm), hex(xref.to), xref.iscode)
+
+
+''' [>_]
+=== From - 0 ===
+21 Ordinary_Flow 0x7ff75bd09c90 0x7ff75bd09c96 1
+17 Code_Near_Call 0x7ff75bd09c90 0x7ff75bd0b000 1
+3 Data_Read 0x7ff75bd09c90 0x7ff75bd0b000 0
+=== From - 1 ===
+17 Code_Near_Call 0x7ff75bd09c90 0x7ff75bd0b000 1
+3 Data_Read 0x7ff75bd09c90 0x7ff75bd0b000 0
+=== To - 0 ===
+17 Code_Near_Call 0x7ff75bd09c90 0x7ff75bd0b000 1
+3 Data_Read 0x7ff75bd09c90 0x7ff75bd0b000 0
+1 Data_Offset 0x7ff75bd0c7bc 0x7ff75bd0b000 0
+=== To - 1 ===
+17 Code_Near_Call 0x7ff75bd09c90 0x7ff75bd0b000 1
+3 Data_Read 0x7ff75bd09c90 0x7ff75bd0b000 0
+1 Data_Offset 0x7ff75bd0c7bc 0x7ff75bd0b000 0
+'''
+
+
+'''
+[!] Cross references do not have to be caused by branch instructions. They can also be caused by normal ordinary code flow. If we set the flag to 1 Ordinary_Flow reference types won't be added.
+'''
+
+
+```
 # Notes
 [[Notes#^0a709d|Deprecated modules in idaapi]]
 
 # Constants
 ```python
 o_reg # register
+```
+
+
+```python
+
+
+
 ```

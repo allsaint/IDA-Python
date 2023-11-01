@@ -25,13 +25,14 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GIT/GIT.md",
+                "file": "IDAPython/Functions.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -81,8 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "e5c95f31ef2745fc",
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "SSH/SSH.md",
+                "file": "IDAPython/Functions.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "SSH/SSH.md",
+                "file": "IDAPython/Functions.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "SSH/SSH.md"
+                "file": "IDAPython/Functions.md"
               }
             }
           }
@@ -159,21 +159,22 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ef73ef92254b662f",
+  "active": "e63c3a2a53cbbd6a",
   "lastOpenFiles": [
+    "IDAPython/ida_ua.md",
+    "IDAPython/Notes.md",
     "IDAPython/Functions.md",
-    "SSH/SSH.md",
-    "SSH",
-    "GIT/GIT.md",
-    "GH/GH.md",
-    "Untitled 1.md",
-    "GIT tutorial",
-    "GIT",
+    "IDAPython/Scripts.md",
     "IDAPython/Questions.md",
     "IDAPython/Pasted image 20231031121413.png",
     "IDAPython/Operands.md",
-    "IDAPython/Notes.md",
-    "IDAPython/ida_ua.md",
+    "GH/GH.md",
+    "GIT/GIT.md",
+    "SSH/SSH.md",
+    "SSH",
+    "Untitled 1.md",
+    "GIT tutorial",
+    "GIT",
     "IDAPython - Copy/Scripts.md",
     "IDAPython - Copy/Questions.md",
     "IDAPython - Copy/Pasted image 20231031121413.png",
@@ -182,7 +183,6 @@
     "IDAPython - Copy/ida_ua.md",
     "IDAPython - Copy/Functions.md",
     "IDAPython - Copy",
-    "IDAPython/Scripts.md",
     "GH"
   ]
 }
