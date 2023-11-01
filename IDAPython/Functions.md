@@ -199,7 +199,6 @@ print("=== Done! ====")
 # Xrefs To / Xrefs From
 
 
-
 [+]Usage `idc.get_name_ea_simple()`
 [+]Usage `idautils.CodeRefsTo()`
 [+] `idautils.Names()` 
@@ -270,6 +269,8 @@ dq offset kernel32_IsDebuggerPresent
 idc.set_name(ea, "RtlCompareMemory", SN_CHECK)
 ```
 
+The following script collects all cross references to and from two particular addresses.
+The script shows difference between passing argument 0 or 1 to `XrefsFrom`, `XrefsTo`
 
 [+] `XrefsTo()`
 [+] `xref.type` - 12 different documented reference type values
@@ -283,8 +284,11 @@ import idaapi
 import idc
 
 print(" === START === ")
-print("=== From - 0 ===")
 
+xref_from = set([])
+xref_to = set([])
+
+print("=== From - 0 ===")
 # .text:...9C90 call    cs:IsDebuggerPresent
 ea = 0x00007FF75BD09C90
 for xref in XrefsFrom(ea,0):
@@ -292,6 +296,7 @@ for xref in XrefsFrom(ea,0):
 
 print("=== From - 1 ===")
 for xref in XrefsFrom(ea,1):
+	xrefs_from.add(hex(xref.frm))
 	print (xref.type, idautils.XrefTypeName(xref.type), hex(xref.frm), hex(xref.to), xref.iscode)
 
 print("=== To - 0 ===")
@@ -304,25 +309,40 @@ for xref in XrefsTo(ea,0):
 print("=== To - 1 ===")
 # If the flag is 1 Ordinary_Flow reference types won't be displayed
 for xref in XrefsTo(ea,1):
+	xrefs_to.add(hex(xref.frm))
 	print (xref.type, idautils.XrefTypeName(xref.type), hex(xref.frm), hex(xref.to), xref.iscode)
 
+# returns set
+print("SET OF XREFS FROM: ",xrefs_from)
+print("SET OF XREFS TO: ", xrefs_to)
+
+# returns list
+[x for x in xrefs_from]
+[x for x in xrefs_to]
 
 ''' [>_]
+
 === From - 0 ===
 21 Ordinary_Flow 0x7ff75bd09c90 0x7ff75bd09c96 1
 17 Code_Near_Call 0x7ff75bd09c90 0x7ff75bd0b000 1
 3 Data_Read 0x7ff75bd09c90 0x7ff75bd0b000 0
+
 === From - 1 ===
 17 Code_Near_Call 0x7ff75bd09c90 0x7ff75bd0b000 1
 3 Data_Read 0x7ff75bd09c90 0x7ff75bd0b000 0
+
 === To - 0 ===
 17 Code_Near_Call 0x7ff75bd09c90 0x7ff75bd0b000 1
 3 Data_Read 0x7ff75bd09c90 0x7ff75bd0b000 0
 1 Data_Offset 0x7ff75bd0c7bc 0x7ff75bd0b000 0
+
 === To - 1 ===
 17 Code_Near_Call 0x7ff75bd09c90 0x7ff75bd0b000 1
 3 Data_Read 0x7ff75bd09c90 0x7ff75bd0b000 0
 1 Data_Offset 0x7ff75bd0c7bc 0x7ff75bd0b000 0
+
+SET OF XREFS FROM:  {'0x7ff75bd09c90'}
+SET OF XREFS TO:  {'0x7ff75bd09c90', '0x7ff75bd0c7bc'}
 '''
 
 
@@ -332,6 +352,61 @@ for xref in XrefsTo(ea,1):
 
 
 ```
+
+## Reference type values
+
+	0 = 'Data_Unknown'
+	1 = 'Data_Offset'
+	2 = 'Data_Write'
+	3 = 'Data_Read'
+	4 = 'Data_Text'
+	5 = 'Data_Informational'
+	16 = 'Code_Far_Call'
+	17 = 'Code_Near_Call'
+	18 = 'Code_Far_Jump'
+	19 = 'Code_Near_Jump'
+	20 = 'Code_User'
+	21 = 'Ordinary_Flow'
+
+
+# Searching
+
+`idc.find_binary(ea, flag, searchstr, radix=16)`
+`ea` - address that we would like to search from 
+`flag` 
+	SEARCH_UP = 0
+	SEARCH_DOWN = 1
+	SEARCH_NEXT = 2
+	SEARCH_CASE = 4
+	SEARCH_REGEX = 8
+	SEARCH_NOBRK = 16
+	SEARCH_NOSHOW = 32
+	SEARCH_UNICODE = 64 **
+	SEARCH_IDENT = 128 **
+	SEARCH_BRK = 256 **
+
+`SEARCH_UP` and `SEARCH_DOWN` are used to select the direction we would like our search to follow.
+`SEARCH_NEXT` is used to get the next found object.
+`SEARCH_CASE` is used to specify case sensitivity.
+`SEARCH_NOSHOW` does not show the search progress.
+`SEARCH_UNICODE` is used to treat all search strings as Unicode.
+
+
+# Selecting Data
+# Comments & Renaming
+# Accessing Raw Data
+# Patching
+# Input and Output
+# Intel Pin Logger
+# Batch File Generation
+# Executing Scripts
+#
+#
+#
+#
+#
+#
+
 # Notes
 [[Notes#^0a709d|Deprecated modules in idaapi]]
 

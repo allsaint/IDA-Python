@@ -79,3 +79,7 @@ git remote add origin git@github.comallsaint:allsaint.github.io.git
 ```bash
 git fetch git@github.com:allsaint/Obsidian-Vault.git
 ```
+
+```bash
+git config user.email <GITHUB_EMAIL>
+```

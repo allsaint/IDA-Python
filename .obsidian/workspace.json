@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IDAPython/Functions.md",
+                "file": "GIT/GIT.md",
                 "mode": "source",
                 "source": false
               }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "IDAPython/Functions.md",
+                "file": "GIT/GIT.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "IDAPython/Functions.md",
+                "file": "GIT/GIT.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "IDAPython/Functions.md"
+                "file": "GIT/GIT.md"
               }
             }
           }
@@ -161,9 +161,9 @@
   },
   "active": "e63c3a2a53cbbd6a",
   "lastOpenFiles": [
-    "IDAPython/ida_ua.md",
-    "IDAPython/Notes.md",
     "IDAPython/Functions.md",
+    "IDAPython/Notes.md",
+    "IDAPython/ida_ua.md",
     "IDAPython/Scripts.md",
     "IDAPython/Questions.md",
     "IDAPython/Pasted image 20231031121413.png",
