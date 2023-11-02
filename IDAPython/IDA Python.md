@@ -7,7 +7,6 @@ idc.get_inf_attr(INF_MIN_EA)
 idc.get_inf_attr(INF_MAX_EA)
 # get segment name by address
 idc.get_segm_name(ea) 
-
 ```
 
 ```python
@@ -158,11 +157,11 @@ idc.OpOff(curr_addr, 0, 0)
 
 # Operands
 
-Operands are values going after instruction.
-Example: `mov eax, dword_4201488`
-instruction:  `mov`
-1st operand: `eax`
-2nd operand: `dword_4201488`
+[?] Operands are values going after instruction.
+	Example: `mov eax, dword_4201488`
+	instruction:  `mov`
+	1st operand: `eax`
+	2nd operand: `dword_4201488`
 
 ```python
 def dis():
@@ -197,7 +196,7 @@ print("=== Done! ====")
 ```
 
 # Xrefs To / Xrefs From
-
+[?] Show cross references 'from' and 'to' of specific address
 
 [+]Usage `idc.get_name_ea_simple()`
 [+]Usage `idautils.CodeRefsTo()`
@@ -352,7 +351,6 @@ SET OF XREFS TO:  {'0x7ff75bd09c90', '0x7ff75bd0c7bc'}
 
 
 ```
-
 ## Reference type values
 
 	0 = 'Data_Unknown'
@@ -371,29 +369,98 @@ SET OF XREFS TO:  {'0x7ff75bd09c90', '0x7ff75bd0c7bc'}
 
 # Searching
 
-`idc.find_binary(ea, flag, searchstr, radix=16)`
-`ea` - address that we would like to search from 
-`flag` 
-	SEARCH_UP = 0
-	SEARCH_DOWN = 1
-	SEARCH_NEXT = 2
-	SEARCH_CASE = 4
-	SEARCH_REGEX = 8
-	SEARCH_NOBRK = 16
-	SEARCH_NOSHOW = 32
-	SEARCH_UNICODE = 64 **
-	SEARCH_IDENT = 128 **
-	SEARCH_BRK = 256 **
+[!] Python `idc.find_binary(ea, flag, searchstr, radix=16)` is deprecated.
+Now `ida_bytes.bin_search(start_ea, end_ea, data, flags)` is used.
+[?] Search for a set of bytes in the program
 
-`SEARCH_UP` and `SEARCH_DOWN` are used to select the direction we would like our search to follow.
-`SEARCH_NEXT` is used to get the next found object.
-`SEARCH_CASE` is used to specify case sensitivity.
-`SEARCH_NOSHOW` does not show the search progress.
-`SEARCH_UNICODE` is used to treat all search strings as Unicode.
+**ida_bytes.bin_search(start_ea, end_ea, data, flags)**
+	`start_ea`:  start address of search
+	`end_ea`: end address of search
+	`data`:  data to search for (output from `parse_binpat_str()`)
+	`flags`: combination of `BIN_SEARCH_*` flags
+	_return_: the address of a match, or `ida_idaapi.BADADDR` if not found
+[[Scripts#^fcd573|bin_search()]]
 
+**parse_binpat_str(out, ea, \_in, radix, strlits_encoding=0)**
+	`out`: a vector of compiled binary patterns, for use with bin_search()
+	`ea`:  linear address to convert for (the conversion depends on the address, because the number of bits in a byte depend on the segment type)
+	`in`:  input text string
+	`radix`:  numeric base of numbers (8,10,16)
+	`strlits_encoding`: the target encoding into which the string literals from 'in', should be encoded. Range from \[1, `get_encoding_qty()`\].
+	`return`: false either in case of parsing error, or if at least one requested target encoding couldn't encode the string literals present in "in".
+[[Scripts#^93ecf0|find_text()]]
+
+
+``` python
+# Check if specific address flagged ad code, data etc.
+ea = here()
+f =idc.get_full_flags(ea)
+idc.is_code(f)
+idc.is_data(f)
+idc.is_tail(f)
+idc.is_unknown(f)
+idc.is_head(f)
+```
+
+```python
+	ea = here()
+	
+	addr = idc.find_code(ea, idc.SEARCH_DOWN | idc.SEARCH_NEXT)
+	print (hex(addr), idc.generate_disasm_line(addr, 0))
+	
+	addr = idc.find_data(ea, idc.SEARCH_DOWN | idc.SEARCH_NEXT)
+	print (hex(addr), idc.generate_disasm_line(addr, 0))
+	
+	addr = idc.find_unknown(ea, idc.SEARCH_DOWN | idc.SEARCH_NEXT)
+	print (hex(addr), idc.generate_disasm_line(addr, 0))
+	
+	addr = idc.find_defined(ea, idc.SEARCH_DOWN | idc.SEARCH_NEXT)
+	print (hex(addr), idc.generate_disasm_line(addr, 0))
+	
+	
+	# find_imm() returns tuple [address, operand]
+	addr = idc.find_imm(get_inf_attr(INF_MIN_EA), SEARCH_DOWN, 0x134B2BF )
+	print(hex(addr[0]), generate_disasm_line(addr[0],1))
+```
+
+```python 
+ea = here()
+print (hex(ea), idc.generate_disasm_line(ea, 0))
+while(ea!= ida_idaapi.BADADDR):
+	ea = idc.find_defined(ea, idc.SEARCH_DOWN )
+	print (hex(ea), idc.generate_disasm_line(ea, 0))
+	ea = next_head(ea)
+
+'''[>_]
+0x7ff74fe0d662 align 8
+0x7ff74fe0d680 _onexit_table_t <0FFFFFFFFFFFFFFFFh, 0FFFFFFFFFFFFFFFFh, 0FFFFFFFFFFFFFFFFh>
+0x7ff74fe0d6b8 dd 0
+...
+`__scrt_common_main_seh(void)'::`1'::filt$0
+0x7ff74fe0e3a8 align 1000h
+0xffffffffffffffff 
+'''
+```
 
 # Selecting Data
+
+[!] Note: you **MUST** select specific region in IDA by right clicking and dragging cursor till the needed addres region in IDA.
+[?] Read the user selection, and store its information in p0 (from) and p1 (to).
+
+**idc.read_selection()**
+	`view`: The view to retrieve the selection for.
+	`p0`: Storage for the "to" part of the selection.
+	`p1`: Storage for the "to" part of the selection.
+	**return**: a bool value indicating success.
+[[Scripts#^3a6e55|read_selection()]]
+
 # Comments & Renaming
+
+**idc.set_cmt(ea, comment, is_repeatable)**
+	`ea`: address of comment
+	`comment`: comment itself
+	`is_repeatable`: if comment is repeated throught the code. Value is either 0 or 1.
+
 # Accessing Raw Data
 # Patching
 # Input and Output
@@ -421,3 +488,9 @@ o_reg # register
 
 
 ```
+# Refferences 
+
+https://www.hex-rays.com/products/ida/support/idapython_docs/ida_bytes.html#ida_bytes.BIN_SEARCH_FORWARD
+https://hex-rays.com/products/ida/support/idapython_docs/ida_search.html#ida_search.find_code
+https://www.hex-rays.com/products/ida/support/idapython_docs/ida_kernwin.html
+

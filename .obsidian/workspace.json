@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "GIT/GIT.md",
+                "file": "IDAPython/IDA Python.md",
                 "mode": "source",
                 "source": false
               }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "GIT/GIT.md",
+                "file": "IDAPython/IDA Python.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "GIT/GIT.md",
+                "file": "IDAPython/IDA Python.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,11 +138,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "GIT/GIT.md"
+                "file": "IDAPython/IDA Python.md"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -161,15 +162,15 @@
   },
   "active": "e63c3a2a53cbbd6a",
   "lastOpenFiles": [
-    "IDAPython/Functions.md",
+    "IDAPython/Misc.md",
     "IDAPython/Notes.md",
-    "IDAPython/ida_ua.md",
+    "IDAPython/IDA Python.md",
     "IDAPython/Scripts.md",
     "IDAPython/Questions.md",
-    "IDAPython/Pasted image 20231031121413.png",
     "IDAPython/Operands.md",
-    "GH/GH.md",
     "GIT/GIT.md",
+    "IDAPython/Pasted image 20231031121413.png",
+    "GH/GH.md",
     "SSH/SSH.md",
     "SSH",
     "Untitled 1.md",
