@@ -460,9 +460,55 @@ while(ea!= ida_idaapi.BADADDR):
 	`ea`: address of comment
 	`comment`: comment itself
 	`is_repeatable`: if comment is repeated throught the code. Value is either 0 or 1.
+[[Scripts#^0b69c2|set_cmt()]]
+
+
+**idc.set_name(ea, name, SN_CHECK)**
+**idc.get_func_name(ea)**
+**idc.get_operand_value(ea, n)**
+
 
 # Accessing Raw Data
+
+	idc.get_wide_byte(ea)
+	idc.get_wide_word(ea)
+	idc.get_wide_dword(ea)
+	idc.get_qword(ea)
+	idc.GetFloat(ea)
+	idc.GetDouble(ea)
+
+```python
+ea = idc.here()
+print (hex(ea), idc.generate_disasm_line(ea, 0))
+print(hex (idc.get_wide_byte(ea)))
+print(hex(idc.get_wide_word(ea)))
+print(hex(idc.get_wide_dword(ea)))
+print(hex(idc.get_qword(ea)))
+print(idc.GetFloat(ea)) # Example not a float value
+print(idc.GetDouble(ea))
+
+''' [>_]
+0x7ff7554288e1 movzx   eax, byte ptr [rsp+28h+var_24]
+0xf
+0xb60f
+0x2444b60f
+0x240488042444b60f
+4.265493478866881e-17
+3.5309265505939453e-135
+'''
+
+
+```
+
+	idc.get_bytes(ea, size, use_dbg=False)
+
 # Patching
+
+	idc.patch_byte(ea, value)
+	idc.patch_word(ea, value)
+	idc.patch_dword(ea, value)
+
+
 # Input and Output
 # Intel Pin Logger
 # Batch File Generation

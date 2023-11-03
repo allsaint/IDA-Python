@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "SSH/SSH.md",
+                "file": "IDAPython/IDA Python.md",
                 "mode": "source",
                 "source": false
               }
@@ -31,8 +31,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -160,18 +159,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e63c3a2a53cbbd6a",
+  "active": "ef73ef92254b662f",
   "lastOpenFiles": [
     "IDAPython/Misc.md",
-    "IDAPython/Notes.md",
+    "SSH/SSH.md",
     "IDAPython/IDA Python.md",
     "IDAPython/Scripts.md",
-    "IDAPython/Questions.md",
+    "IDAPython/Notes.md",
     "IDAPython/Operands.md",
+    "IDAPython/Questions.md",
     "GIT/GIT.md",
     "IDAPython/Pasted image 20231031121413.png",
     "GH/GH.md",
-    "SSH/SSH.md",
     "SSH",
     "Untitled 1.md",
     "GIT tutorial",
