@@ -159,7 +159,7 @@ Code_Near_Jump 0x7ff755429820 0x7ff75542a088
 
 
 ```python
-# а хуй знает че этот скрипт делает
+# хуй знает че этот скрипт делает
 def check_for_wrapper(func):
     flags = idc.get_func_attr(func, idc.FUNCATTR_FLAGS)
     if flags & idc.FUNC_LIB or flags & idc.FUNC_THUNK:
@@ -203,5 +203,109 @@ check_for_wrapper(x)
 [+] Total function calls:  1
 [+] Total compare instructions:  2
 '''
+
+```
+
+## patch_byte()
+
+^72e59d
+
+```python
+import idc
+start = idc.read_selection_start()
+end = idc.read_selection_end()
+buffer = []
+nigger= [0x6e,0x69,0x67,0x67,0x65,0x72,0x14,0x88]
+for id, n in enumerate(nigger):
+    nigger[id] = n^0x30
+print(nigger)
+def xor(length, key, buff):
+        eip = 0x00007FF61EEB406A
+        for id,x in enumerate(range(0,length)):
+            byte = idc.get_wide_byte(eip)
+            print(hex(byte))
+            idc.patch_byte(eip,nigger[id]^0x30)
+            print(eip)
+            eip = idc.next_addr(eip)
+xor(8,0x30,buffer)
+```
+
+
+script to patch bytes at selected address
+``` python
+import sys
+import idaapi
+import idc
+
+class IO_DATA():
+    def __init__(self):
+        self.start = idc.read_selection_start()
+        self.end = idc.read_selection_end()
+        self.buffer = '' # contains the binary data.
+        self.ogLen = None # contains the size of the buffer.
+        self.status = True
+        self.run()
+        
+    def checkBounds(self):
+        if self.start is BADADDR or self.end is BADADDR:
+            self.status = False
+        
+    def getData(self):
+        self.ogLen = self.end - self.start
+        try:
+            for byte in idc.get_bytes(self.start, self.ogLen):
+                self.buffer = self.buffer+byte
+        except:
+            self.status = False
+        return
+        
+    def run(self):
+        self.checkBounds()
+        if self.start == False:
+            sys.stdout.write('ERROR: Please select valid data\n')
+            return
+        self.getData()
+        
+    def patch (self, temp= None):
+        if temp != None:
+            self.buffer = temp
+            for index, byte in enumerate(self.buffer):
+                #print(hex(byte))
+                idc.patch_byte(self.start+index, byte)
+                    
+    def importb (self):
+        fileName = ida_kernwin.ask_file(0, "*.*", 'Import File')
+        try:
+            self.buffer = open(fileName, 'rb').read()
+        except:
+            sys.stdout.write('ERROR: Please select valid data\n')
+    
+    def exportb(self):
+        exportFile =ida_kerwin.ask_file(1,"*.*", 'Export buffer')
+        f = open(exportFile, 'wb')
+        f.write(self.buffer)
+        f.close()
+     
+    def stats(self):
+        print("\n[+] Stats.")
+        print("\t- Start: ",  hex(self.start ))
+        print("\t- End: " , hex(self.end ))
+        print("\t- Length: " , self.ogLen )
+
+patch = [0x43,0x43,0x43,0x43]
+
+image_base = idaapi.get_imagebase()
+io = IO_DATA()
+io.checkBounds()
+io.getData() # get selected region, insert it into buffer
+io.run()    # check if bounds are okay
+io.importb() # import file to patch, (select current .exe file not i64 or id0 etc...)
+
+print("[+] IMAGE_BASE: ",hex(image_base))
+print("\n[+] Address to patch (buffer index): ", hex(io.start - image_base) )
+print("\n[+] Before patch: ", io.buffer[io.start-image_base: io.end-image_base])
+io.patch(patch)
+print("\n[+] After patch: ", io.buffer)
+io.stats()
 
 ```

@@ -8,18 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "ef73ef92254b662f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "IDAPython/IDA Python.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "e63c3a2a53cbbd6a",
             "type": "leaf",
             "state": {
@@ -159,17 +147,24 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ef73ef92254b662f",
+  "active": "e63c3a2a53cbbd6a",
   "lastOpenFiles": [
-    "IDAPython/Misc.md",
-    "SSH/SSH.md",
-    "IDAPython/IDA Python.md",
     "IDAPython/Scripts.md",
-    "IDAPython/Notes.md",
-    "IDAPython/Operands.md",
-    "IDAPython/Questions.md",
-    "GIT/GIT.md",
+    "IDAPython/Misc.md",
+    "IDAPython/IDA Python.md",
     "IDAPython/Pasted image 20231031121413.png",
+    "after.png",
+    "before.png",
+    "before 1.png",
+    "Pasted image 20231106121904.png.md",
+    "IDAPython/Notes.md",
+    "Pasted image 20231106121904.png",
+    "Pasted image 20231106113951.png",
+    "Pasted image 20231106114024.png",
+    "IDAPython/Questions.md",
+    "SSH/SSH.md",
+    "IDAPython/Operands.md",
+    "GIT/GIT.md",
     "GH/GH.md",
     "SSH",
     "Untitled 1.md",

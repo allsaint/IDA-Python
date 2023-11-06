@@ -504,21 +504,51 @@ print(idc.GetDouble(ea))
 
 # Patching
 
-	idc.patch_byte(ea, value)
-	idc.patch_word(ea, value)
-	idc.patch_dword(ea, value)
+**idc.patch_byte(ea, value)**
+**idc.patch_word(ea, value)**
+**idc.patch_dword(ea, value)**
+	`ea`:  address of value
+	`value`:  value to be set
+[[#^996afe|patch_byte()]]
 
-
+_Before patching:_
+![[before.png]]
+_After patching:_
+![[after.png]]
 # Input and Output
+
+`ida_kernwin.ask_file(forsave, mask, prompt)`
+forsave: can be a value of 0 if we want to open a dialog box or 1 is we want to open the save dialog box mask: is the file extension or pattern ( "\*.dll", "\*.py*")
 # Intel Pin Logger
+
+In progress...
 # Batch File Generation
+
+```python
+import os
+import subprocess
+import glob
+paths = glob.glob("*")
+ida_path = os.path.join(os.environ['UserProfile'], "Desktop\IDA Pro 7.7", "idat.exe")
+print(paths)
+print(ida_path)
+for file_path in paths:
+    if file_path.endswith(".py"):
+        continue
+subprocess.call([ida_path, "-B", file_path])
+'''[>_]
+['crackme.exe', 'crackme.exe - Copy.i64', 'crackme.exe.i64', 'crackme.exe.id0', 'crackme.exe.id1', 'crackme.exe.id2', 'crackme.exe.nam']
+C:\Users\saint\Desktop\IDA Pro 7.7\idat.exe
+'''
+```
+
 # Executing Scripts
 #
-#
-#
-#
-#
-#
+``` python 
+idaapi.autoWait()
+# python code
+idc.Exit(0)
+```
 
 # Notes
 [[Notes#^0a709d|Deprecated modules in idaapi]]
@@ -526,13 +556,6 @@ print(idc.GetDouble(ea))
 # Constants
 ```python
 o_reg # register
-```
-
-
-```python
-
-
-
 ```
 # Refferences 
 
